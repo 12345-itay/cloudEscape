@@ -17,8 +17,8 @@ def run_command(command):
 
 def lambda_handler(event, context):
     # I've added a layer to the Lambda function that includes the awscli package.
-    # This allows us to run shell commands like 'aws s3' directly, for future functionality I haven't of yet.
+    # This allows us to run shell commands like 'aws s3' directly, for future functionality I haven't thought of yet.
     # It is installed under the /opt directory in the Lambda environment.
     
     domain = event.get('domain')
-    run_command('nslookup' + domain)
+    run_command('/opt/nslookup ' + domain)
