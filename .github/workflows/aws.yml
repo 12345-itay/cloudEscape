@@ -1,7 +1,9 @@
 name: AWS Access
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - corgi
 
 permissions:
   id-token: write
