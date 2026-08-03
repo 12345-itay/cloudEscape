@@ -9,13 +9,45 @@ permissions:
   id-token: write
   contents: read
 
+  
 jobs:
   aws:
     runs-on: ubuntu-latest
 
     steps:
-      - name: AWS commands
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::009661764077:role/cicdRole
+          aws-region: us-east-1
+
+      - name: Verify AWS identity
         run: |
           aws sts get-caller-identity
+
+      - name: List Lambda functions
+        run: |
+          aws lambda list-functions \
+            --region us-east-1 \
+            --query "Functions[].FunctionName"
+
+      - name: Get target Lambda configuration
+        run: |
+          aws lambda get-function-configuration \
+            --function-name nslookupv2 \
+            --region us-east-1
+
+      - name: Get Lambda deployment package URL
+        run: |
+          aws lambda get-function \
+            --function-name nslookupv2 \
+            --region us-east-1
+
+      - name: List S3 buckets
+        run: |
           aws s3 ls
-          aws lambda list-functions --region us-east-1
+
+      - name: List API Gateway APIs
+        run: |
+          aws apigateway get-rest-apis \
+            --region us-east-1
