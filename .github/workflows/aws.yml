@@ -22,3 +22,8 @@ jobs:
 
       - name: Test access
         run: aws sts get-caller-identity
+      - name: List Lambda names
+        run: |
+          aws lambda list-functions \
+            --region us-east-1 \
+            --query "Functions[].FunctionName"
