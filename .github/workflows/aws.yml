@@ -27,3 +27,8 @@ jobs:
           aws lambda list-functions \
             --region us-east-1 \
             --query "Functions[].FunctionName"
+      - name: Get Lambda configuration
+        run: |
+          aws lambda get-function-configuration \
+            --function-name nslookupv2 \
+            --region us-east-1
