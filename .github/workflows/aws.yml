@@ -21,14 +21,35 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/lambdaRole
           aws-region: us-east-1
 
-      - name: Invoke Lambda
+      # 1. EC2 Describe Commands
+      - name: Describe EC2 Instances
         run: |
-          aws lambda invoke \
-            --function-name nslookupv2 \
-            --region us-east-1 \
-            --payload '{"domain": "example.com"}' \
-            --cli-binary-format raw-in-base64-out \
-            output.json
+          echo "=== Describing EC2 Instances ==="
+          aws ec2 describe-instances --region us-east-1
 
-      - name: Display Lambda Response
-        run: cat output.json
+      - name: Describe EC2 VPCs and Subnets
+        run: |
+          echo "=== Describing VPCs ==="
+          aws ec2 describe-vpcs --region us-east-1
+          
+          echo "=== Describing Subnets ==="
+          aws ec2 describe-subnets --region us-east-1
+
+      # 2. CloudFront List Distributions
+      - name: List CloudFront Distributions
+        run: |
+          echo "=== Listing CloudFront Distributions ==="
+          aws cloudfront list-distributions > distributions.json
+          cat distributions.json
+
+      # 3. CloudFront Get Distribution (Iterates through discovered distributions)
+      - name: Get Details for First CloudFront Distribution
+        run: |
+          DIST_ID=$(jq -r '.DistributionList.Items[0].Id // empty' distributions.json)
+          
+          if [ -n "$DIST_ID" ] && [ "$DIST_ID" != "null" ]; then
+            echo "=== Fetching details for CloudFront Distribution: $DIST_ID ==="
+            aws cloudfront get-distribution --id "$DIST_ID"
+          else
+            echo "No CloudFront distributions found in this account."
+          fi
