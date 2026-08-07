@@ -22,7 +22,7 @@ jobs:
           aws-region: us-east-1
 
 
-      - name: Check CloudFront
+      - name: Get S3 bucket policy
         run: |
-          aws apigateway get-resources \
-          --rest-api-id 3q931syi7b
+          aws s3api get-bucket-policy \
+            --bucket codec4f26c862a321ef5
