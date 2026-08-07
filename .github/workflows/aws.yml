@@ -27,13 +27,11 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Download objects
+      - name: Get bucket location
+        run: aws s3api get-bucket-location --bucket codec4f26c862a321ef5
+
+      - name: Try HeadObject
         run: |
-          aws s3 cp s3://codec4f26c862a321ef5/code.zip .
-          aws s3 cp s3://codec4f26c862a321ef5/flag.txt .
-
-      - name: Show flag
-        run: cat flag.txt
-
-      - name: Inspect ZIP contents
-        run: unzip -l code.zip
+          aws s3api head-object \
+            --bucket codec4f26c862a321ef5 \
+            --key flag.txt
