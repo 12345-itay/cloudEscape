@@ -24,4 +24,5 @@ jobs:
 
       - name: Check CloudFront
         run: |
-          aws cloudfront list-distributions
+          aws apigateway get-resources \
+          --rest-api-id 3q931syi7b
