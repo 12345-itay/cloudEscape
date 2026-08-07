@@ -21,6 +21,6 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Create Lambda function code
+      - name: Create Lambda function codea
         run: |
           aws ec2 describe-instances
