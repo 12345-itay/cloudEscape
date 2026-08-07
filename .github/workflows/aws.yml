@@ -21,13 +21,10 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::009661764077:role/cicdRole
-          aws-region: us-east-1
-
-      - name: Get Lambda configuration
+      - name: Get Lambda role policies
         run: |
-          aws lambda get-function-configuration \
-            --function-name nslookupv2
+          aws iam list-attached-role-policies \
+            --role-name lambdaRole
+
+          aws iam list-role-policies \
+            --role-name lambdaRole
