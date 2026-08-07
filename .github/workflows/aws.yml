@@ -22,10 +22,10 @@ jobs:
           aws-region: us-east-1
 
 
-      - name: Test API Gateway endpoints
+      - name: Get Lambda logs
         run: |
-          for stage in prod dev test v1; do
-            echo "Testing stage: $stage"
-            curl -i \
-            "https://3q931syi7b.execute-api.us-east-1.amazonaws.com/$stage"
-          done
+          aws logs describe-log-streams \
+            --log-group-name /aws/lambda/nslookupv2 \
+            --order-by LastEventTime \
+            --descending \
+            --limit 5
