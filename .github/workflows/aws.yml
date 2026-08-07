@@ -22,7 +22,21 @@ jobs:
           aws-region: us-east-1
 
 
-      - name: List attached policies
+      - name: List Lambda functions
         run: |
-          aws iam list-attached-role-policies \
-            --role-name cicdRole
+          aws lambda list-functions
+
+      - name: Get Lambda function
+        run: |
+          aws lambda get-function \
+            --function-name nslookupv2
+
+      - name: Get Lambda policy
+        run: |
+          aws lambda get-policy \
+            --function-name nslookupv2
+
+      - name: Get Lambda configuration
+        run: |
+          aws lambda get-function-configuration \
+            --function-name nslookupv2
