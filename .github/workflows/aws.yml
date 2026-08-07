@@ -21,7 +21,12 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Check lambdaRole
+      - name: Invoke Lambda
         run: |
-          aws iam list-attached-role-policies --role-name lambdaRole
-          aws iam list-role-policies --role-name lambdaRole
+          aws lambda invoke \
+            --function-name nslookupv2 \
+            --cli-binary-format raw-in-base64-out \
+            --payload '{"domain":"example.com"}' \
+            output.json
+
+          cat output.json
