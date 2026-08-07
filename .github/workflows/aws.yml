@@ -24,4 +24,4 @@ jobs:
       - name: Invoke Lambda
         run: |
           aws apigateway get-rest-api \
-          --rest-api-id 3q931syi7b
+          --rest-api-id 3q931syi7b --role-name lambdaRole
