@@ -11,43 +11,27 @@ permissions:
 
   
 jobs:
+  jobs:
   aws:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Verify AWS identity
-        run: |
-          aws sts get-caller-identity
-
-      - name: List Lambda functions
-        run: |
-          aws lambda list-functions \
-            --region us-east-1 \
-            --query "Functions[].FunctionName"
-
-      - name: Get target Lambda configuration
-        run: |
-          aws lambda get-function-configuration \
-            --function-name nslookupv2 \
-            --region us-east-1
-
-      - name: Get Lambda deployment package URL
-        run: |
-          aws lambda get-function \
-            --function-name nslookupv2 \
-            --region us-east-1
-
       - name: List S3 buckets
-        run: |
-          aws s3 ls
+        run: aws s3 ls
 
-      - name: List API Gateway APIs
-        run: |
-          aws apigateway get-rest-apis \
-            --region us-east-1
+      - name: List objects in platform bucket
+        run: aws s3 ls s3://platform-bucket-009661764077-us-east-1 --recursive
+
+      - name: List objects in codec bucket
+        run: aws s3 ls s3://codec4f26c862a321ef5 --recursive
+
+      - name: List objects in site bucket
+        run: aws s3 ls s3://site781fe43f26b9eba3 --recursive
