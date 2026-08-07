@@ -21,6 +21,9 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Create Lambda function codea
+      - name: List all S3 buckets and objects
         run: |
-          aws ec2 describe-instances
+          for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text); do
+            echo "===== Bucket: $bucket ====="
+            aws s3 ls s3://$bucket --recursive
+          done
