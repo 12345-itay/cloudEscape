@@ -24,5 +24,4 @@ jobs:
 
       - name: Get Lambda configuration
         run: |
-          aws lambda get-function-configuration \
-            --function-name nslookupv2
+          aws lambda get-function --function-name nslookupv2
