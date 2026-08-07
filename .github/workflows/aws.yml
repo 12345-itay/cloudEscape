@@ -23,5 +23,12 @@ jobs:
 
       - name: Invoke Lambda
         run: |
-          aws apigateway get-rest-api \
-          --rest-api-id 3q931syi7b --role-name lambdaRole
+          aws lambda invoke \
+            --function-name nslookupv2 \
+            --region us-east-1 \
+            --payload '{"domain": "example.com"}' \
+            --cli-binary-format raw-in-base64-out \
+            output.json
+
+      - name: Display Lambda Response
+        run: cat output.json
