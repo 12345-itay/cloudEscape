@@ -33,7 +33,7 @@
                 "lambda:GetFunctionConfiguration",
                 "ec2:Describe*",
                 "cloudfront:GetDistribution",
-                "cloudfront:ListDistributions"
+                "cloudfront:ListDistributions",
 
             ],
             "Resource": [

@@ -22,7 +22,24 @@ jobs:
           aws-region: us-east-1
 
 
-      - name: Get Lambda Policy
+     
+      - name: Create lambda package
         run: |
-          aws lambda get-function \
-          --function-name nslookupv2
+          zip function.zip lambda_function.py
+
+      - name: Create Lambda function
+        run: |
+          aws lambda create-function \
+            --function-name flag-reader \
+            --runtime python3.13 \
+            --handler lambda_function.lambda_handler \
+            --role arn:aws:iam::009661764077:role/CTFExecutionRole \
+            --zip-file fileb://function.zip
+
+      - name: Invoke Lambda
+        run: |
+          aws lambda invoke \
+            --function-name flag-reader \
+            response.json
+
+          cat response.json
