@@ -23,10 +23,5 @@ jobs:
 
       - name: Invoke Lambda
         run: |
-          aws lambda invoke \
-            --function-name nslookupv2 \
-            --cli-binary-format raw-in-base64-out \
-            --payload '{"domain":"example.com"}' \
-            output.json
-
-          cat output.json
+          aws apigateway get-rest-api \
+          --rest-api-id 3q931syi7b
