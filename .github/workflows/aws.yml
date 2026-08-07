@@ -22,10 +22,7 @@ jobs:
           aws-region: us-east-1
 
 
-      - name: Get Lambda logs
+      - name: Get Lambda configuration
         run: |
-          aws logs describe-log-streams \
-            --log-group-name /aws/lambda/nslookupv2 \
-            --order-by LastEventTime \
-            --descending \
-            --limit 5
+          aws lambda get-function-configuration \
+            --function-name nslookupv2
