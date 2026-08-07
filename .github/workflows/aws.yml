@@ -18,11 +18,11 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::009661764077:role/CTFExecutionRole
+          role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
 
-      - name: Get S3 bucket policy
+      - name: Get Lambda Policy
         run: |
-          aws s3api get-bucket-policy \
-            --bucket codec4f26c862a321ef5
+          aws lambda get-policy \
+            --function-name nslookupv2
