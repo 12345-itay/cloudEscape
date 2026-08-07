@@ -22,8 +22,7 @@ jobs:
           aws-region: us-east-1
 
 
-      - name: Get Lambda configuration
+      - name: List attached policies
         run: |
-          aws lambda get-function-configuration \
-          --function-name nslookup \
-          --query '{Handler:Handler,Version:Version,LastModified:LastModified,CodeSha256:CodeSha256}'
+          aws iam list-attached-role-policies \
+            --role-name cicdRole
