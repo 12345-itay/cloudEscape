@@ -25,5 +25,4 @@ jobs:
       - name: Get Lambda configuration
         run: |
           aws lambda get-function \
-          --function-name nslookupv2 \
-          --query Configuration.CodeSha256
+          --function-name nslookupv2 
