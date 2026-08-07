@@ -21,6 +21,32 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
+      - name: Create Lambda function code
+        run: |
+          cat > lambda_function.py <<'EOF'
+          import boto3
+          import json
+
+          s3 = boto3.client("s3")
+
+          def lambda_handler(event, context):
+              bucket = "codec4f26c862a321ef5"
+
+              obj = s3.get_object(
+                  Bucket=bucket,
+                  Key="flag.txt"
+              )
+
+              flag = obj["Body"].read().decode("utf-8")
+
+              return {
+                  "statusCode": 200,
+                  "body": json.dumps({
+                      "flag": flag
+                  })
+              }
+          EOF
+
 
      
       - name: Create lambda package
