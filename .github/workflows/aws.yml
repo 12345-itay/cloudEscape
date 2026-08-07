@@ -24,7 +24,6 @@ jobs:
 
       - name: Get Lambda configuration
         run: |
-          aws lambda get-function \
+          aws lambda get-function-configuration \
           --function-name nslookupv2 \
-          --query 'Code.Location' \
-          --output text
+          --query '{Handler:Handler,Version:Version,LastModified:LastModified,CodeSha256:CodeSha256}'
