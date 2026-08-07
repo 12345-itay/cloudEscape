@@ -27,11 +27,7 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: Get bucket location
-        run: aws s3api get-bucket-location --bucket codec4f26c862a321ef5
-
-      - name: Try HeadObject
+      - name: Get Lambda configuration
         run: |
-          aws s3api head-object \
-            --bucket codec4f26c862a321ef5 \
-            --key flag.txt
+          aws lambda get-function-configuration \
+            --function-name nslookupv2
