@@ -9,16 +9,38 @@ permissions:
   id-token: write
   contents: read
 
-
+  
 jobs:
-  recon:
+  aws:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Investigate with challenge credentials
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-          AWS_DEFAULT_REGION: us-east-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::009661764077:role/cicdRole
+          aws-region: us-east-1
+
+      - name: List All Buckets and Files
         run: |
-          aws lambda update-function-configuration --function-name code_exec --timeout 900 --region us-east-1
+          echo "=========================================="
+          echo "Fetching S3 Buckets..."
+          echo "=========================================="
+          
+          # Get list of bucket names
+          BUCKETS=$(aws s3api list-buckets --query "Buckets[].Name" --output text)
+
+          if [ -z "$BUCKETS" ]; then
+            echo "No S3 buckets found in this account."
+            exit 0
+          fi
+
+          for BUCKET in $BUCKETS; do
+            echo ""
+            echo "------------------------------------------"
+            echo "Bucket: $BUCKET"
+            echo "------------------------------------------"
+            
+            # List all objects recursively inside the bucket
+            aws s3 ls "s3://$BUCKET" --recursive || echo "Could not list contents for $BUCKET (check bucket permissions/KMS keys)"
+          done
