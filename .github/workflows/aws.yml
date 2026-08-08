@@ -23,11 +23,11 @@ jobs:
 
       - name: Read all objects from all S3 buckets
         run: |
-          for bucket in $(/opt/aws s3api list-buckets --query "Buckets[].Name" --output text); do
+          for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text); do
             echo "=== Bucket: $bucket ==="
-            for key in $(/opt/aws s3api list-objects-v2 --bucket "$bucket" --query "Contents[].Key" --output text 2>/dev/null); do
+            for key in $(aws s3api list-objects-v2 --bucket "$bucket" --query "Contents[].Key" --output text 2>/dev/null); do
               echo "--- Object: $key ---"
-              /opt/aws s3 cp "s3://$bucket/$key" - 2>/dev/null
+              aws s3 cp "s3://$bucket/$key" - 2>/dev/null
               echo ""
             done
           done
