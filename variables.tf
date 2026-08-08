@@ -4,5 +4,5 @@ variable "region" {
 }
 variable "codebuild_vpc_name" {
   type    = string
-  default = "codebuild_vpc"
+  default = "vpc-09328d3fa21dce320"
 }

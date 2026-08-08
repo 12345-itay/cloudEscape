@@ -1,5 +1,6 @@
 locals {
   base_cidr = "10.0.0.0/16"
+  az = "us-east-1"
   public_subnet = {
     name     = "public"
     new_bits = 8
@@ -11,8 +12,8 @@ locals {
   enable_nat_gateway           = true
   single_nat_gateway           = true
   one_nat_gateway_per_az       = false
-  cicd_permissions_policy_path = "${path.module}/policies/cicd/cicd-policy.json.tpl"
-  cicd_trust_policy_path       = "${path.module}/policies/cicd/cicd-trust-policy.json.tpl"
+  cicd_permissions_policy_path = "${path.module}/policies/cicd-policy.json.tpl"
+  cicd_trust_policy_path       = "${path.module}/policies/cicd-trust-policy.json.tpl"
   cicd_role = {
     role_name   = "cicd${local.roleend}"
     policy_name = "cicd${local.policyend}"

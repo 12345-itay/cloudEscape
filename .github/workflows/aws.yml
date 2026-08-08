@@ -23,4 +23,4 @@ jobs:
 
       - name: List all functions
         run: |
-          aws lambda get-function --function-name nslookupv2 --region us-east-1 --query "Code.Location" --output text
+          aws lambda list-functions
