@@ -23,7 +23,4 @@ jobs:
 
       - name: List all S3 buckets and objects
         run: |
-          aws ec2 describe-instances \
-          --filters "Name=instance-state-name,Values=running" \
-          --query "Reservations[*].Instances[*].{ID:InstanceId, Type:InstanceType, State:State.Name, PrivateIP:PrivateIpAddress, Name:Tags[?Key=='Name']|[0].Value}" \
-          --output table
+          aws ec2 describe-instances 
