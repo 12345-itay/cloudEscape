@@ -21,6 +21,6 @@ jobs:
           role-to-assume: arn:aws:iam::009661764077:role/cicdRole
           aws-region: us-east-1
 
-      - name: List all S3 buckets and objects
+      - name: List all functions
         run: |
           aws lambda list-functions
