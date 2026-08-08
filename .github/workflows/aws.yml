@@ -10,23 +10,24 @@ permissions:
   contents: read
 
   
+name: aws
+on: workflow_dispatch
 jobs:
-  aws:
+  recon:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::009661764077:role/cicdRole
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Read all objects from all S3 buckets
+      - name: Investigate buckets and CloudFront
         run: |
-          for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text); do
-            echo "=== Bucket: $bucket ==="
-            for key in $(aws s3api list-objects-v2 --bucket "$bucket" --query "Contents[].Key" --output text 2>/dev/null); do
-              echo "--- Object: $key ---"
-              echo ""
-            done
-          done
+          aws s3api list-objects-v2 --bucket site781fe43f26b9eba3 --output json
+          aws cloudfront get-distribution --id d4ysu55xg7wfi
+          aws s3api get-bucket-policy --bucket site781fe43f26b9eba3
+          aws s3api list-objects-v2 --bucket user6dcaf1b8c9fd6612 --output json
+          aws s3api list-objects-v2 --bucket log6dcaf1b8c9fd6612 --output json
