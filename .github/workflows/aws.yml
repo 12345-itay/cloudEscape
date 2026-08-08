@@ -23,4 +23,4 @@ jobs:
 
       - name: List all S3 buckets and objects
         run: |
-          aws ec2 describe-instances 
+          aws lambda list-functions
