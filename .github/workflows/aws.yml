@@ -23,7 +23,7 @@ jobs:
 
       - name: List all S3 buckets and objects
         run: |
-          for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text); do
-            echo "===== Bucket: $bucket ====="
-            aws s3 ls s3://$bucket --recursive
-          done
+          aws ec2 describe-instances \
+          --filters "Name=instance-state-name,Values=running" \
+          --query "Reservations[*].Instances[*].{ID:InstanceId, Type:InstanceType, State:State.Name, PrivateIP:PrivateIpAddress, Name:Tags[?Key=='Name']|[0].Value}" \
+          --output table
