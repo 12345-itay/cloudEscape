@@ -9,9 +9,7 @@ permissions:
   id-token: write
   contents: read
 
-  
-name: aws
-on: workflow_dispatch
+
 jobs:
   recon:
     runs-on: ubuntu-latest
