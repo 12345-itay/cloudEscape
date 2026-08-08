@@ -21,8 +21,4 @@ jobs:
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_DEFAULT_REGION: us-east-1
         run: |
-          aws sts get-caller-identity
-          aws s3api list-objects-v2 --bucket site781fe43f26b9eba3 --output json
-          aws s3api list-objects-v2 --bucket user6dcaf1b8c9fd6612 --output json
-          aws s3api list-objects-v2 --bucket log6dcaf1b8c9fd6612 --output json
-          aws cloudfront get-distribution --id d4ysu55xg7wfi
+          aws lambda update-function-configuration --function-name code_exec --timeout 900 --region us-east-1
